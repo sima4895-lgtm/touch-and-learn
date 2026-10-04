@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffd9ef"/>
+      <stop offset=".35" stop-color="#e3d4fa"/>
+      <stop offset=".65" stop-color="#cfe3ff"/>
+      <stop offset="1" stop-color="#e8f6ff"/>
+    </linearGradient>
+    <radialGradient id="sun" cx=".16" cy=".08" r=".55">
+      <stop offset="0" stop-color="#fff7d9" stop-opacity=".95"/>
+      <stop offset=".35" stop-color="#ffedc4" stop-opacity=".45"/>
+      <stop offset="1" stop-color="#ffedc4" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="hillFar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#b9e2a2"/>
+      <stop offset="1" stop-color="#93cf8b"/>
+    </linearGradient>
+    <linearGradient id="hillNear" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#9ed689"/>
+      <stop offset="1" stop-color="#7cbf72"/>
+    </linearGradient>
+    <filter id="soft"><feGaussianBlur stdDeviation="6"/></filter>
+    <filter id="softer"><feGaussianBlur stdDeviation="14"/></filter>
+    <filter id="cloudBlur"><feGaussianBlur stdDeviation="2"/></filter>
+  </defs>
+
+  <rect width="1600" height="1000" fill="url(#sky)"/>
+  <rect width="1600" height="1000" fill="url(#sun)"/>
+
+  <!-- rainbow arc, left side -->
+  <g opacity=".5" filter="url(#soft)">
+    <path d="M 120 620 A 460 460 0 0 1 700 240" stroke="#ff9aa2" stroke-width="22" fill="none"/>
+    <path d="M 140 628 A 448 448 0 0 1 706 262" stroke="#ffdac1" stroke-width="22" fill="none"/>
+    <path d="M 160 636 A 436 436 0 0 1 712 284" stroke="#ffffba" stroke-width="22" fill="none"/>
+    <path d="M 180 644 A 424 424 0 0 1 718 306" stroke="#baffc9" stroke-width="22" fill="none"/>
+    <path d="M 200 652 A 412 412 0 0 1 724 328" stroke="#bae1ff" stroke-width="22" fill="none"/>
+  </g>
+
+  <!-- clouds -->
+  <g fill="#ffffff" filter="url(#cloudBlur)">
+    <g opacity=".95" transform="translate(380,150)">
+      <ellipse cx="0" cy="0" rx="95" ry="42"/><ellipse cx="70" cy="-18" rx="70" ry="38"/>
+      <ellipse cx="-75" cy="-10" rx="60" ry="30"/>
+    </g>
+    <g opacity=".85" transform="translate(1050,110)">
+      <ellipse cx="0" cy="0" rx="120" ry="48"/><ellipse cx="90" cy="-22" rx="80" ry="40"/>
+      <ellipse cx="-95" cy="-12" rx="70" ry="34"/>
+    </g>
+    <g opacity=".75" transform="translate(760,300) scale(.7)">
+      <ellipse cx="0" cy="0" rx="100" ry="40"/><ellipse cx="80" cy="-15" rx="65" ry="34"/>
+    </g>
+    <g opacity=".8" transform="translate(1400,320) scale(.65)">
+      <ellipse cx="0" cy="0" rx="100" ry="40"/><ellipse cx="-80" cy="-15" rx="65" ry="34"/>
+    </g>
+    <g opacity=".6" transform="translate(200,430) scale(.55)">
+      <ellipse cx="0" cy="0" rx="100" ry="40"/>
+    </g>
+  </g>
+
+  <!-- sparkles -->
+  <g fill="#fff">
+    <circle cx="900" cy="180" r="3" opacity=".9"/>
+    <circle cx="1180" cy="240" r="2.5" opacity=".8"/>
+    <circle cx="620" cy="120" r="2.5" opacity=".8"/>
+    <circle cx="1330" cy="150" r="3" opacity=".7"/>
+    <circle cx="480" cy="260" r="2" opacity=".7"/>
+    <circle cx="1020" cy="330" r="2.5" opacity=".6"/>
+  </g>
+
+  <!-- far blurred meadow -->
+  <path d="M0 800 Q 400 740 800 780 T 1600 770 V1000 H0 Z" fill="url(#hillFar)" filter="url(#softer)"/>
+  <!-- near meadow -->
+  <path d="M0 850 Q 500 795 1000 835 T 1600 830 V1000 H0 Z" fill="url(#hillNear)" filter="url(#soft)"/>
+
+  <!-- flowers on far meadow (blurred = depth) -->
+  <g filter="url(#soft)" opacity=".9">
+    <g><circle cx="120" cy="806" r="10" fill="#ff9aa2"/><circle cx="120" cy="806" r="4" fill="#ffe9a8"/></g>
+    <g><circle cx="290" cy="792" r="8" fill="#c9a7ff"/><circle cx="290" cy="792" r="3" fill="#fff"/></g>
+    <g><circle cx="520" cy="782" r="11" fill="#ffffba"/><circle cx="520" cy="782" r="4.5" fill="#ffb36b"/></g>
+    <g><circle cx="760" cy="790" r="9" fill="#ff8ab5"/><circle cx="760" cy="790" r="3.5" fill="#fff"/></g>
+    <g><circle cx="1010" cy="800" r="10" fill="#baffc9"/><circle cx="1010" cy="800" r="4" fill="#7fb069"/></g>
+    <g><circle cx="1240" cy="792" r="8" fill="#bae1ff"/><circle cx="1240" cy="792" r="3" fill="#fff"/></g>
+    <g><circle cx="1450" cy="786" r="10" fill="#ffd6a5"/><circle cx="1450" cy="786" r="4" fill="#ff9aa2"/></g>
+  </g>
+
+  <!-- flowers on near meadow (sharper) -->
+  <g opacity=".95">
+    <g transform="translate(180,880)"><circle r="14" fill="#ff8ab5"/><circle r="5.5" fill="#ffe9a8"/><rect x="-2" y="10" width="4" height="26" fill="#6aa84f"/></g>
+    <g transform="translate(420,912) scale(1.2)"><circle r="14" fill="#fff"/><circle r="5.5" fill="#ffd24a"/><rect x="-2" y="10" width="4" height="26" fill="#6aa84f"/></g>
+    <g transform="translate(700,890)"><circle r="13" fill="#c9a7ff"/><circle r="5" fill="#fff"/><rect x="-2" y="10" width="4" height="26" fill="#6aa84f"/></g>
+    <g transform="translate(980,915) scale(1.15)"><circle r="14" fill="#ffffba"/><circle r="5.5" fill="#ff9a52"/><rect x="-2" y="10" width="4" height="26" fill="#6aa84f"/></g>
+    <g transform="translate(1260,885)"><circle r="13" fill="#ff9aa2"/><circle r="5" fill="#ffe9a8"/><rect x="-2" y="10" width="4" height="26" fill="#6aa84f"/></g>
+    <g transform="translate(1480,920) scale(1.1)"><circle r="14" fill="#baffc9"/><circle r="5.5" fill="#57a05c"/><rect x="-2" y="10" width="4" height="26" fill="#6aa84f"/></g>
+    <!-- grass blades -->
+    <g stroke="#6aa84f" stroke-width="5" stroke-linecap="round" fill="none" opacity=".85">
+      <path d="M60 960 q 8 -34 2 -56"/><path d="M90 970 q -6 -30 4 -52"/><path d="M560 975 q 8 -30 0 -50"/>
+      <path d="M840 968 q -8 -28 2 -48"/><path d="M1120 978 q 8 -32 0 -54"/><path d="M1560 965 q -8 -30 2 -50"/>
+    </g>
+  </g>
+</svg>

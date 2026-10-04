@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+@font-face{font-family:'Comic Neue';font-style:normal;font-weight:400;src:url('fonts/comic-400.woff2') format('woff2');}
+@font-face{font-family:'Comic Neue';font-style:normal;font-weight:700;src:url('fonts/comic-700.woff2') format('woff2');}
+</style> content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Alphabet Touch &amp; Learn</title>
+<style>
+  :root{ --sky1:#ffe3f3; --sky2:#d9ecff; --sky3:#fff7d9; }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{width:100%;height:100%;overflow:hidden;font-family:"Comic Sans MS","Comic Neue",cursive,sans-serif;}
+  #sky{position:fixed;inset:0;
+    background:linear-gradient(180deg,var(--sky1) 0%,var(--sky2) 45%,var(--sky3) 100%);}
+  .star{position:absolute;border-radius:50%;background:#fff;
+    box-shadow:0 0 8px 2px rgba(255,255,200,.9);animation:tw 3s ease-in-out infinite;}
+  @keyframes tw{0%,100%{opacity:.25;transform:scale(.8);}50%{opacity:1;transform:scale(1.15);}}
+  .cloud{position:absolute;background:rgba(255,255,255,.85);border-radius:50%;filter:blur(1px);
+    animation:drift linear infinite;}
+  .cloud::before,.cloud::after{content:"";position:absolute;background:inherit;border-radius:50%;}
+  .cloud::before{width:60%;height:120%;left:15%;top:-45%;}
+  .cloud::after{width:45%;height:100%;right:12%;top:-25%;}
+  @keyframes drift{from{transform:translateX(-30vw);}to{transform:translateX(130vw);}}
+  .rainbow{position:absolute;left:50%;top:6%;width:70vw;height:35vw;max-height:46vh;
+    transform:translateX(-50%);border-radius:50% 50% 0 0/100% 100% 0 0;opacity:.35;
+    background:conic-gradient(from 270deg at 50% 100%,
+      #ff9aa2 0 8deg,#ffdac1 8deg 16deg,#ffffba 16deg 24deg,#baffc9 24deg 32deg,#bae1ff 32deg 40deg,transparent 40deg);
+    -webkit-mask:radial-gradient(circle at 50% 100%,transparent 62%,#000 64%,#000 78%,transparent 80%);
+            mask:radial-gradient(circle at 50% 100%,transparent 62%,#000 64%,#000 78%,transparent 80%);}
+  h1{position:absolute;top:3.5%;left:0;right:0;text-align:center;font-size:7vmin;
+    color:#a24bbf;text-shadow:0 3px 0 #fff;pointer-events:none;}
+  #grid{position:absolute;top:16%;left:50%;transform:translateX(-50%);
+    display:grid;grid-template-columns:repeat(6,1fr);gap:1.6vmin;}
+  .letter{width:13.5vmin;height:13.5vmin;max-width:110px;max-height:110px;border:none;border-radius:26%;
+    font-family:inherit;font-size:7vmin;font-weight:bold;cursor:pointer;color:#fff;
+    text-shadow:0 2px 3px rgba(0,0,0,.25);
+    background:linear-gradient(180deg,#ffb3e0,#c793ec);
+    box-shadow:0 5px 0 rgba(160,90,190,.55), inset 0 2px 6px rgba(255,255,255,.5);
+    transition:transform .12s;}
+  .letter:nth-child(6n+2){background:linear-gradient(180deg,#ffe29a,#ffb36b);}
+  .letter:nth-child(6n+3){background:linear-gradient(180deg,#a8e6a3,#5ec9a0);}
+  .letter:nth-child(6n+4){background:linear-gradient(180deg,#a3d8ff,#6fa8ef);}
+  .letter:nth-child(6n+5){background:linear-gradient(180deg,#ffb0a0,#ff8a7a);}
+  .letter:nth-child(6n+6){background:linear-gradient(180deg,#d5b3ff,#a678e8);}
+  .letter:hover{transform:scale(1.1) rotate(-3deg);}
+  .letter:active{transform:scale(.92);}
+  .letter.ready{animation:bounceL 2.2s ease-in-out infinite;}
+  @keyframes bounceL{0%,100%{transform:translateY(0);}50%{transform:translateY(-1.2vmin);}}
+  .lock{position:absolute;right:6%;bottom:8%;font-size:9vmin;opacity:.85;}
+  @media (orientation:portrait){
+    #grid{grid-template-columns:repeat(4,1fr);top:14%;}
+    h1{font-size:6vmin;}
+    .letter{width:18vmin;height:18vmin;font-size:9vmin;}
+  }
+</style>
+</head>
+<body>
+  <div id="sky"><div class="rainbow"></div></div>
+  <h1>🌈 Alphabet Touch &amp; Learn 🌈</h1>
+  <div id="grid"></div>
+<script>
+/* which letters have a game */
+const READY = new Set("ABCDEFGHIJKLMNOPQRSTUVWXYZ".split(""));
+const TOTAL = 26;
+const grid = document.getElementById("grid");
+const sky = document.getElementById("sky");
+for(let i=0;i<24;i++){ const s=document.createElement("div"); s.className="star";
+  const z=2+Math.random()*4;
+  s.style.cssText=`width:${z}px;height:${z}px;left:${Math.random()*100}%;top:${Math.random()*28}%;animation-delay:${Math.random()*3}s`;
+  sky.appendChild(s); }
+for(let i=0;i<5;i++){ const c=document.createElement("div"); c.className="cloud";
+  const w=10+Math.random()*12;
+  c.style.cssText=`width:${w}vw;height:${w*0.4}vw;top:${4+Math.random()*24}%;animation-duration:${50+Math.random()*50}s;animation-delay:-${Math.random()*60}s;opacity:${.55+Math.random()*.35}`;
+  sky.appendChild(c); }
+
+let actx=null;
+function pop(){ if(!actx) actx=new (window.AudioContext||window.webkitAudioContext)();
+  const o=actx.createOscillator(), g=actx.createGain();
+  o.type="sine"; o.frequency.value=880;
+  g.gain.setValueAtTime(.4,actx.currentTime);
+  g.gain.exponentialRampToValueAtTime(.001,actx.currentTime+.3);
+  o.connect(g); g.connect(actx.destination); o.start(); o.stop(actx.currentTime+.35); }
+
+for(let i=0;i<TOTAL;i++){
+  const L = String.fromCharCode(65+i);
+  const b = document.createElement("button");
+  b.className = "letter ready";
+  b.textContent = L;
+  if(READY.has(L)){
+    b.title = L + " game — tap to play!";
+    b.onclick = ()=>{ pop(); location.href = L.toLowerCase() + "/"; };
+  } else {
+    b.title = "Coming soon!";
+    b.style.opacity = ".45";
+    b.style.filter = "grayscale(.7)";
+    b.onclick = ()=>{ pop(); const old=b.textContent; b.textContent="🔜";
+      setTimeout(()=>b.textContent=old, 900); };
+  }
+  grid.appendChild(b);
+}
+</script>
+</body>
+</html>
