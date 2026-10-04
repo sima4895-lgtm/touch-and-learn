@@ -182,7 +182,8 @@ function buildTouchBoard(){
   holesBox.style.right = "6%";
   holesBox.style.top = "34%";
   holesBox.style.bottom = "6%";
-  holesBox.style.gap = "3vmin";
+  holesBox.style.gap = "5vmin";
+  holesBox.style.padding = "0 4vmin";
   holesBox.style.zIndex = "5";
   if (matchMedia("(orientation:landscape)").matches) {
     holesBox.style.left = "55%"; holesBox.style.right = "4%";
@@ -196,6 +197,9 @@ function buildTouchBoard(){
     const art = eimg ? `<img src="${eimg}" alt="" draggable="false">` : `<div class="tlEmoji">${w.emoji}</div>`;
     card.innerHTML = art + `<div class="tlName">${w.name}</div>`;
     card.addEventListener("pointerdown", ()=>{
+      if(voiceBusy) return;                 /* lock while a voice clip is playing */
+      voiceBusy = true;
+      setTimeout(()=>{ voiceBusy = false; }, 12000);  /* hard unlock failsafe */
       card.classList.add("pressed");
       setTimeout(()=>card.classList.remove("pressed"), 350);
       h_word = w;
@@ -205,12 +209,15 @@ function buildTouchBoard(){
         found.add(w.name); starCount++; updateStars();
       }
       speak(`${w.name}!`, {rate:1.05, pitch:1.4}, ()=>
-        playClip(w.key+"_d", w.desc, {rate:.95, pitch:1.25}, ()=>{ hideBig(); }));
+        playClip(w.key+"_d", w.desc, {rate:.95, pitch:1.25}, ()=>{
+          hideBig();
+          setTimeout(()=>{ voiceBusy = false; }, 300);   /* unlock after voice ends */
+        }));
     });
     holesBox.appendChild(card);
   });
 }
-let h_word = null;
+let h_word = null; let voiceBusy = false;
 function buildHoles(){} /* holes removed */
 function stagePos(){
   const st = document.getElementById("stage");
